@@ -1,0 +1,1175 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deva. K | UI Developer & Frontend Engineer</title>
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                DEFAULT: "#3B82F6", // Blue
+                dark: "#1D4ED8",
+              },
+              secondary: {
+                DEFAULT: "#8B5CF6", // Violet
+                dark: "#6D28D9",
+              },
+              accent: {
+                DEFAULT: "#EC4899", // Pink
+                dark: "#BE185D",
+              },
+              background: {
+                light: "#F8FAFC",
+                dark: "#020617",
+              },
+              surface: {
+                light: "#FFFFFF",
+                dark: "#0F172A",
+              },
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "Inter", "sans-serif"],
+            },
+            backgroundImage: {
+              "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+            },
+            animation: {
+              float: "float 6s ease-in-out infinite",
+              "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-20px)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Motion One -->
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      @layer utilities {
+        .glass {
+          @apply bg-white/10 backdrop-blur-md border border-white/20 dark:bg-black/20 dark:border-white/10;
+        }
+        .glass-dark {
+          @apply bg-black/40 backdrop-blur-xl border border-white/5;
+        }
+        .text-gradient {
+          @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+        }
+        .hover-lift {
+          @apply transition-transform duration-300 hover:-translate-y-2;
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-sans transition-colors duration-500 overflow-x-hidden"
+  >
+    <!-- Custom Cursor -->
+    <div
+      id="cursor"
+      class="fixed w-8 h-8 pointer-events-none z-[9999] mix-blend-difference hidden md:block"
+    >
+      <div
+        class="absolute inset-0 bg-white rounded-full transition-transform duration-100 ease-out scale-100 opacity-50"
+      ></div>
+      <div
+        class="absolute inset-2 bg-white rounded-full transition-transform duration-300 ease-out scale-0 group-hover:scale-100"
+      ></div>
+    </div>
+    <div
+      id="cursor-follower"
+      class="fixed w-12 h-12 pointer-events-none z-[9998] mix-blend-difference hidden md:block border border-white rounded-full transition-transform duration-500 ease-out scale-50 opacity-20"
+    ></div>
+
+    <!-- Background Gradients -->
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+      <div
+        class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full animate-pulse-slow"
+      ></div>
+      <div
+        class="absolute bottom-[10%] right-[-10%] w-[45%] h-[45%] bg-accent/20 blur-[120px] rounded-full animate-float"
+      ></div>
+      <div
+        class="absolute top-[40%] left-[60%] w-[30%] h-[30%] bg-secondary/15 blur-[100px] rounded-full"
+      ></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav
+      id="navbar"
+      class="fixed top-0 left-0 w-full z-50 transition-all duration-300 px-6 py-4"
+    >
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <a
+          href="#"
+          class="text-2xl font-extrabold tracking-tighter flex items-center group"
+        >
+          <span
+            class="text-primary group-hover:rotate-12 transition-transform duration-300"
+            >D</span
+          >
+          <span class="text-accent">.</span>
+          <span class="text-slate-900 dark:text-white ml-1">K</span>
+        </a>
+
+        <!-- Desktop Menu -->
+        <div
+          class="hidden md:flex items-center space-x-8 glass px-8 py-2 rounded-full"
+        >
+          <a
+            href="#about"
+            class="text-sm font-medium hover:text-primary transition-colors"
+            >About</a
+          >
+          <a
+            href="#skills"
+            class="text-sm font-medium hover:text-primary transition-colors"
+            >Skills</a
+          >
+          <a
+            href="#experience"
+            class="text-sm font-medium hover:text-primary transition-colors"
+            >Experience</a
+          >
+          <a
+            href="#projects"
+            class="text-sm font-medium hover:text-primary transition-colors"
+            >Projects</a
+          >
+          <a
+            href="#contact"
+            class="text-sm font-medium hover:text-primary transition-colors"
+            >Contact</a
+          >
+        </div>
+
+        <div class="flex items-center space-x-4">
+          <button
+            id="theme-toggle"
+            class="p-2 rounded-full glass hover:bg-white/20 transition-all"
+            aria-label="Toggle Theme"
+          >
+            <i
+              data-lucide="sun"
+              id="sun-icon"
+              class="w-5 h-5 hidden dark:block"
+            ></i>
+            <i
+              data-lucide="moon"
+              id="moon-icon"
+              class="w-5 h-5 block dark:hidden"
+            ></i>
+          </button>
+          <a
+            href="#contact"
+            class="hidden md:block bg-gradient-to-r from-primary to-secondary text-white px-6 py-2 rounded-full font-semibold text-sm hover:shadow-lg hover:shadow-primary/30 transition-all active:scale-95"
+            >Hire Me</a
+          >
+          <!-- Mobile Menu Toggle -->
+          <button class="md:hidden p-2 rounded-lg glass" id="mobile-menu-btn">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Hero Section -->
+      <section
+        id="hero"
+        class="relative min-h-screen flex items-center justify-center pt-20 px-6 overflow-hidden"
+      >
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+          <div class="parallax-element" data-speed="20">
+            <div
+              class="inline-block px-4 py-1.5 mb-6 glass rounded-full text-xs font-bold tracking-widest text-primary uppercase animate-bounce"
+            >
+              Available for new projects
+            </div>
+            <h1
+              class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter mb-6 leading-[0.9]"
+            >
+              Crafting Digital <br />
+              <span class="text-gradient">Experiences</span> <br />
+              with Precision.
+            </h1>
+            <p
+              class="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-lg mb-8 leading-relaxed"
+            >
+              I'm
+              <span
+                class="text-slate-900 dark:text-white font-bold underline decoration-primary decoration-4"
+                >Deva K</span
+              >, a creative UI/Front-End Developer specialized in building
+              high-performance, visually stunning web applications.
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <a
+                href="#projects"
+                class="px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-bold flex items-center gap-2 hover:bg-primary dark:hover:bg-primary transition-all group"
+              >
+                View Work
+                <i
+                  data-lucide="arrow-right"
+                  class="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                ></i>
+              </a>
+              <a
+                href="#contact"
+                class="px-8 py-4 glass rounded-2xl font-bold flex items-center gap-2 hover:bg-white/20 transition-all"
+              >
+                Let's Talk
+              </a>
+            </div>
+          </div>
+
+          <div
+            class="relative hidden lg:block parallax-element"
+            data-speed="-15"
+          >
+            <div
+              class="w-[500px] h-[500px] bg-gradient-to-tr from-primary via-secondary to-accent rounded-[30% 70% 70% 30% / 30% 30% 70% 70%] animate-pulse blur-3xl opacity-20 absolute -z-10"
+            ></div>
+            <div
+              class="relative glass rounded-[40px] p-8 aspect-square flex items-center justify-center overflow-hidden group"
+            >
+              <!-- Modern Abstract Shape / Profile Placeholder -->
+              <div
+                class="w-full h-full bg-slate-200 dark:bg-slate-800 rounded-3xl overflow-hidden relative"
+              >
+                <!-- This would be your image -->
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-primary/40 to-accent/40 mix-blend-overlay"
+                ></div>
+                <div
+                  class="flex items-center justify-center h-full text-slate-400 text-6xl font-black opacity-10"
+                >
+                  DEVA
+                </div>
+              </div>
+              <!-- Floating Badges -->
+              <div
+                class="absolute -top-6 -right-6 glass p-4 rounded-2xl animate-float"
+                style="animation-delay: -1s"
+              >
+                <i data-lucide="code-2" class="text-primary w-8 h-8"></i>
+              </div>
+              <div
+                class="absolute -bottom-6 -left-6 glass p-4 rounded-2xl animate-float"
+                style="animation-delay: -3s"
+              >
+                <i data-lucide="figma" class="text-accent w-8 h-8"></i>
+              </div>
+              <div
+                class="absolute top-1/2 -left-10 glass p-4 rounded-2xl animate-float"
+                style="animation-delay: -5s"
+              >
+                <i data-lucide="zap" class="text-secondary w-8 h-8"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div
+          class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50"
+        >
+          <span class="text-[10px] uppercase tracking-widest font-bold"
+            >Scroll Down</span
+          >
+          <div class="w-1 h-12 glass rounded-full overflow-hidden">
+            <div
+              id="scroll-bar"
+              class="w-full h-1/2 bg-primary animate-bounce"
+            ></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex flex-col md:flex-row gap-16 items-start">
+            <div class="md:w-1/3 sticky top-32">
+              <h2
+                class="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight"
+              >
+                About <span class="text-gradient">Me</span>
+              </h2>
+              <div
+                class="w-20 h-1.5 bg-gradient-to-r from-primary to-accent rounded-full"
+              ></div>
+            </div>
+            <div class="md:w-2/3">
+              <p
+                class="text-xl md:text-2xl leading-relaxed text-slate-600 dark:text-slate-400 mb-8"
+              >
+                Creative and detail-oriented
+                <span class="text-slate-900 dark:text-white font-semibold"
+                  >Web Designer / UI Developer</span
+                >
+                with over 4 years of experience. I specialize in designing and
+                developing responsive, user-friendly, and visually appealing
+                websites.
+              </p>
+              <p class="text-lg text-slate-600 dark:text-slate-400 mb-12">
+                Skilled in modern UI/UX practices, frontend technologies, and
+                design tools, with a proven track record of delivering
+                high-quality digital experiences that improve usability,
+                performance, and user engagement.
+              </p>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="glass p-8 rounded-3xl hover-lift">
+                  <h3 class="text-primary font-bold text-2xl mb-4">
+                    Education
+                  </h3>
+                  <div class="space-y-4">
+                    <div>
+                      <p class="text-sm text-primary font-bold">2015 - 2018</p>
+                      <p class="font-bold">B.Sc. Computer Science</p>
+                      <p class="text-sm opacity-60">Guru Nanak College</p>
+                    </div>
+                    <div>
+                      <p class="text-sm text-primary font-bold">2013 - 2015</p>
+                      <p class="font-bold">12th Standard</p>
+                      <p class="text-sm opacity-60">AJS Nidhi Hr Sec School</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="glass p-8 rounded-3xl hover-lift">
+                  <h3 class="text-accent font-bold text-2xl mb-4">Languages</h3>
+                  <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                      <span>English</span>
+                      <span class="text-xs font-bold glass px-2 py-1 rounded"
+                        >Fluent</span
+                      >
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <span>Tamil</span>
+                      <span class="text-xs font-bold glass px-2 py-1 rounded"
+                        >Native</span
+                      >
+                    </div>
+                  </div>
+                  <h3 class="text-secondary font-bold text-2xl mt-8 mb-4">
+                    Location
+                  </h3>
+                  <div class="flex items-center gap-2 opacity-70">
+                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                    <span>Chromepet, Chennai - 44</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills Section -->
+      <section id="skills" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-primary/5 -z-10 skew-y-3"></div>
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-20">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-4">
+              Core <span class="text-gradient">Arsenal</span>
+            </h2>
+            <p class="text-slate-600 dark:text-slate-400">
+              Tools and technologies I use to build world-class products
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Skill Categories -->
+            <div class="space-y-8 lg:col-span-2 grid md:grid-cols-2 gap-x-12">
+              <div class="skill-group">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                  <i data-lucide="layout" class="text-primary"></i> Frontend
+                </h3>
+                <div class="space-y-6">
+                  <div class="skill-bar-container">
+                    <div class="flex justify-between mb-2">
+                      <span class="font-medium">HTML/CSS</span>
+                      <span class="text-primary font-bold">95%</span>
+                    </div>
+                    <div
+                      class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="skill-bar h-full bg-gradient-to-r from-primary to-secondary"
+                        data-width="95%"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="skill-bar-container">
+                    <div class="flex justify-between mb-2">
+                      <span class="font-medium">JavaScript</span>
+                      <span class="text-primary font-bold">85%</span>
+                    </div>
+                    <div
+                      class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="skill-bar h-full bg-gradient-to-r from-primary to-secondary"
+                        data-width="85%"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="skill-bar-container">
+                    <div class="flex justify-between mb-2">
+                      <span class="font-medium">React (Basics)</span>
+                      <span class="text-primary font-bold">70%</span>
+                    </div>
+                    <div
+                      class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="skill-bar h-full bg-gradient-to-r from-primary to-secondary"
+                        data-width="70%"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="skill-bar-container">
+                    <div class="flex justify-between mb-2">
+                      <span class="font-medium">Tailwind / Bootstrap</span>
+                      <span class="text-primary font-bold">90%</span>
+                    </div>
+                    <div
+                      class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="skill-bar h-full bg-gradient-to-r from-primary to-secondary"
+                        data-width="90%"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="skill-group">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                  <i data-lucide="layers" class="text-accent"></i> Design &
+                  Others
+                </h3>
+                <div class="space-y-6">
+                  <div class="skill-bar-container">
+                    <div class="flex justify-between mb-2">
+                      <span class="font-medium">Figma</span>
+                      <span class="text-accent font-bold">85%</span>
+                    </div>
+                    <div
+                      class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="skill-bar h-full bg-gradient-to-r from-accent to-secondary"
+                        data-width="85%"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="skill-bar-container">
+                    <div class="flex justify-between mb-2">
+                      <span class="font-medium">SEO & Analytics</span>
+                      <span class="text-accent font-bold">80%</span>
+                    </div>
+                    <div
+                      class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="skill-bar h-full bg-gradient-to-r from-accent to-secondary"
+                        data-width="80%"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="skill-bar-container">
+                    <div class="flex justify-between mb-2">
+                      <span class="font-medium">Git / PHP (Basics)</span>
+                      <span class="text-accent font-bold">75%</span>
+                    </div>
+                    <div
+                      class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="skill-bar h-full bg-gradient-to-r from-accent to-secondary"
+                        data-width="75%"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="skill-bar-container">
+                    <div class="flex justify-between mb-2">
+                      <span class="font-medium">WordPress</span>
+                      <span class="text-accent font-bold">90%</span>
+                    </div>
+                    <div
+                      class="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="skill-bar h-full bg-gradient-to-r from-accent to-secondary"
+                        data-width="90%"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tech Cloud / Highlight -->
+            <div class="glass p-8 rounded-[40px] flex flex-col justify-center">
+              <h4
+                class="text-sm font-bold uppercase tracking-widest text-slate-500 mb-6"
+              >
+                Expertise Highlights
+              </h4>
+              <div class="flex flex-wrap gap-3">
+                <span
+                  class="px-4 py-2 glass rounded-xl text-sm font-medium hover:bg-primary/20 hover:text-primary transition-all cursor-default"
+                  >UI/UX Design</span
+                >
+                <span
+                  class="px-4 py-2 glass rounded-xl text-sm font-medium hover:bg-secondary/20 hover:text-secondary transition-all cursor-default"
+                  >Responsive Design</span
+                >
+                <span
+                  class="px-4 py-2 glass rounded-xl text-sm font-medium hover:bg-accent/20 hover:text-accent transition-all cursor-default"
+                  >Performance Optimization</span
+                >
+                <span
+                  class="px-4 py-2 glass rounded-xl text-sm font-medium hover:bg-primary/20 hover:text-primary transition-all cursor-default"
+                  >Accessibility</span
+                >
+                <span
+                  class="px-4 py-2 glass rounded-xl text-sm font-medium hover:bg-secondary/20 hover:text-secondary transition-all cursor-default"
+                  >Prototyping</span
+                >
+                <span
+                  class="px-4 py-2 glass rounded-xl text-sm font-medium hover:bg-accent/20 hover:text-accent transition-all cursor-default"
+                  >Modern CSS</span
+                >
+              </div>
+              <div
+                class="mt-10 p-6 bg-slate-900 dark:bg-slate-800 rounded-3xl text-white"
+              >
+                <p class="text-sm italic opacity-80 mb-4">
+                  "Building the web one pixel at a time, ensuring every
+                  interaction feels seamless."
+                </p>
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-primary rounded-full"></div>
+                  <div>
+                    <p class="text-xs font-bold uppercase tracking-tighter">
+                      DEVA. K
+                    </p>
+                    <p class="text-[10px] opacity-60">UI Specialist</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience Section -->
+      <section id="experience" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex flex-col md:flex-row gap-16">
+            <div class="md:w-1/3">
+              <h2
+                class="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight"
+              >
+                Professional <span class="text-gradient">Journey</span>
+              </h2>
+              <p class="text-slate-600 dark:text-slate-400">
+                Over 4 years of contributing to impactful digital solutions
+                across various industries.
+              </p>
+            </div>
+
+            <div class="md:w-2/3 space-y-12">
+              <!-- ELK Education -->
+              <div
+                class="relative pl-8 border-l-2 border-slate-200 dark:border-slate-800"
+              >
+                <div
+                  class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary ring-4 ring-primary/20"
+                ></div>
+                <div class="glass p-8 rounded-3xl hover-lift">
+                  <div
+                    class="flex flex-wrap justify-between items-start mb-4 gap-4"
+                  >
+                    <div>
+                      <h3 class="text-2xl font-bold">Frontend Developer</h3>
+                      <p class="text-primary font-bold">
+                        ELK Education Consultants Pvt Ltd
+                      </p>
+                    </div>
+                    <span class="px-4 py-1 glass rounded-full text-xs font-bold"
+                      >2024 – Present</span
+                    >
+                  </div>
+                  <ul
+                    class="space-y-3 text-slate-600 dark:text-slate-400 list-disc list-inside"
+                  >
+                    <li>
+                      Designing websites with focus on brand & user needs.
+                    </li>
+                    <li>
+                      Learning React.js for building interactive user
+                      interfaces.
+                    </li>
+                    <li>
+                      Assisting backend with CodeIgniter, managing WordPress
+                      themes & plugins.
+                    </li>
+                    <li>
+                      Applying SEO & analytics for performance optimization.
+                    </li>
+                    <li>
+                      Creating prototypes in Figma, enhancing usability & speed.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Navco Soft Solution -->
+              <div
+                class="relative pl-8 border-l-2 border-slate-200 dark:border-slate-800"
+              >
+                <div
+                  class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-secondary"
+                ></div>
+                <div class="glass p-8 rounded-3xl hover-lift">
+                  <div
+                    class="flex flex-wrap justify-between items-start mb-4 gap-4"
+                  >
+                    <div>
+                      <h3 class="text-2xl font-bold">Web Designer</h3>
+                      <p class="text-secondary font-bold">
+                        Navco Soft Solution
+                      </p>
+                    </div>
+                    <span class="px-4 py-1 glass rounded-full text-xs font-bold"
+                      >2020 – 2023</span
+                    >
+                  </div>
+                  <p class="text-slate-600 dark:text-slate-400">
+                    Collaborated with developers to integrate frontend designs
+                    with PHP-based backends. Learned PHP basics and assisted in
+                    small dynamic website modules.
+                  </p>
+                </div>
+              </div>
+
+              <!-- iGenuine Soft Solution -->
+              <div
+                class="relative pl-8 border-l-2 border-slate-200 dark:border-slate-800"
+              >
+                <div
+                  class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-accent"
+                ></div>
+                <div class="glass p-8 rounded-3xl hover-lift">
+                  <div
+                    class="flex flex-wrap justify-between items-start mb-4 gap-4"
+                  >
+                    <div>
+                      <h3 class="text-2xl font-bold">
+                        Internship + Web Designer
+                      </h3>
+                      <p class="text-accent font-bold">
+                        iGenuine Soft Solution
+                      </p>
+                    </div>
+                    <span class="px-4 py-1 glass rounded-full text-xs font-bold"
+                      >2019 – 2020</span
+                    >
+                  </div>
+                  <p class="text-slate-600 dark:text-slate-400">
+                    Assisted in designing and developing responsive websites
+                    using HTML, CSS, and Bootstrap. Focused on mobile-first
+                    design and layout optimization.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section
+        id="projects"
+        class="py-32 px-6 bg-slate-900 dark:bg-black/50 text-white rounded-[60px] mx-4 overflow-hidden relative"
+      >
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 pointer-events-none"
+        ></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+          <div
+            class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8"
+          >
+            <div>
+              <h2 class="text-4xl md:text-6xl font-extrabold mb-6">
+                Featured <br />
+                <span class="text-primary">Masterpieces</span>
+              </h2>
+              <p class="text-slate-400 max-w-md">
+                Selection of my favorite works that demonstrate my technical
+                skills and design sensibility.
+              </p>
+            </div>
+            <div class="flex gap-4">
+              <button
+                class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-all"
+              >
+                <i data-lucide="arrow-left" class="w-6 h-6"></i>
+              </button>
+              <button
+                class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-all"
+              >
+                <i data-lucide="arrow-right" class="w-6 h-6"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Project Card 1 -->
+            <div class="project-card group cursor-pointer">
+              <div
+                class="relative overflow-hidden rounded-[32px] aspect-video mb-6"
+              >
+                <div
+                  class="absolute inset-0 bg-primary/20 group-hover:bg-primary/40 transition-all duration-500"
+                ></div>
+                <div
+                  class="absolute inset-0 flex items-center justify-center translate-y-full group-hover:translate-y-0 transition-all duration-500"
+                >
+                  <span
+                    class="bg-white text-slate-900 px-6 py-3 rounded-full font-bold flex items-center gap-2"
+                  >
+                    View Live
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </span>
+                </div>
+                <div
+                  class="w-full h-full bg-slate-800 flex items-center justify-center text-4xl font-bold opacity-30"
+                >
+                  PIXPIC
+                </div>
+              </div>
+              <h3 class="text-2xl font-bold mb-2">Pixpic.in</h3>
+              <p class="text-slate-400 mb-4">
+                Professional photography showcase and management platform.
+              </p>
+              <div class="flex gap-2">
+                <span
+                  class="text-[10px] uppercase font-bold px-3 py-1 bg-white/10 rounded-full"
+                  >Tailwind</span
+                >
+                <span
+                  class="text-[10px] uppercase font-bold px-3 py-1 bg-white/10 rounded-full"
+                  >React</span
+                >
+              </div>
+            </div>
+
+            <!-- Project Card 2 -->
+            <div class="project-card group cursor-pointer">
+              <div
+                class="relative overflow-hidden rounded-[32px] aspect-video mb-6"
+              >
+                <div
+                  class="absolute inset-0 bg-secondary/20 group-hover:bg-secondary/40 transition-all duration-500"
+                ></div>
+                <div
+                  class="absolute inset-0 flex items-center justify-center translate-y-full group-hover:translate-y-0 transition-all duration-500"
+                >
+                  <span
+                    class="bg-white text-slate-900 px-6 py-3 rounded-full font-bold flex items-center gap-2"
+                  >
+                    View Live
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </span>
+                </div>
+                <div
+                  class="w-full h-full bg-slate-800 flex items-center justify-center text-4xl font-bold opacity-30"
+                >
+                  RICH LIVING
+                </div>
+              </div>
+              <h3 class="text-2xl font-bold mb-2">Rich.living</h3>
+              <p class="text-slate-400 mb-4">
+                Luxury interior design and lifestyle curation portal.
+              </p>
+              <div class="flex gap-2">
+                <span
+                  class="text-[10px] uppercase font-bold px-3 py-1 bg-white/10 rounded-full"
+                  >WordPress</span
+                >
+                <span
+                  class="text-[10px] uppercase font-bold px-3 py-1 bg-white/10 rounded-full"
+                  >GSAP</span
+                >
+              </div>
+            </div>
+
+            <!-- Project Card 3 -->
+            <div class="project-card group cursor-pointer">
+              <div
+                class="relative overflow-hidden rounded-[32px] aspect-video mb-6"
+              >
+                <div
+                  class="absolute inset-0 bg-accent/20 group-hover:bg-accent/40 transition-all duration-500"
+                ></div>
+                <div
+                  class="absolute inset-0 flex items-center justify-center translate-y-full group-hover:translate-y-0 transition-all duration-500"
+                >
+                  <span
+                    class="bg-white text-slate-900 px-6 py-3 rounded-full font-bold flex items-center gap-2"
+                  >
+                    View Live
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </span>
+                </div>
+                <div
+                  class="w-full h-full bg-slate-800 flex items-center justify-center text-4xl font-bold opacity-30"
+                >
+                  THESIS INDIA
+                </div>
+              </div>
+              <h3 class="text-2xl font-bold mb-2">Thesisindia.net</h3>
+              <p class="text-slate-400 mb-4">
+                Academic research assistance and consulting platform.
+              </p>
+              <div class="flex gap-2">
+                <span
+                  class="text-[10px] uppercase font-bold px-3 py-1 bg-white/10 rounded-full"
+                  >PHP</span
+                >
+                <span
+                  class="text-[10px] uppercase font-bold px-3 py-1 bg-white/10 rounded-full"
+                  >Bootstrap</span
+                >
+              </div>
+            </div>
+
+            <!-- Project Card 4 -->
+            <div class="project-card group cursor-pointer">
+              <div
+                class="relative overflow-hidden rounded-[32px] aspect-video mb-6"
+              >
+                <div
+                  class="absolute inset-0 bg-blue-500/20 group-hover:bg-blue-500/40 transition-all duration-500"
+                ></div>
+                <div
+                  class="absolute inset-0 flex items-center justify-center translate-y-full group-hover:translate-y-0 transition-all duration-500"
+                >
+                  <span
+                    class="bg-white text-slate-900 px-6 py-3 rounded-full font-bold flex items-center gap-2"
+                  >
+                    View Live
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </span>
+                </div>
+                <div
+                  class="w-full h-full bg-slate-800 flex items-center justify-center text-4xl font-bold opacity-30 text-center px-4 leading-tight"
+                >
+                  PHD RESEARCH CAMP
+                </div>
+              </div>
+              <h3 class="text-2xl font-bold mb-2">Phdresearchcamp.com</h3>
+              <p class="text-slate-400 mb-4">
+                A comprehensive platform for doctoral candidates and research
+                scholars.
+              </p>
+              <div class="flex gap-2">
+                <span
+                  class="text-[10px] uppercase font-bold px-3 py-1 bg-white/10 rounded-full"
+                  >CodeIgniter</span
+                >
+                <span
+                  class="text-[10px] uppercase font-bold px-3 py-1 bg-white/10 rounded-full"
+                  >MySQL</span
+                >
+              </div>
+            </div>
+
+            <!-- Project Card 5 -->
+            <div class="project-card group cursor-pointer">
+              <div
+                class="relative overflow-hidden rounded-[32px] aspect-video mb-6"
+              >
+                <div
+                  class="absolute inset-0 bg-purple-500/20 group-hover:bg-purple-500/40 transition-all duration-500"
+                ></div>
+                <div
+                  class="absolute inset-0 flex items-center justify-center translate-y-full group-hover:translate-y-0 transition-all duration-500"
+                >
+                  <span
+                    class="bg-white text-slate-900 px-6 py-3 rounded-full font-bold flex items-center gap-2"
+                  >
+                    View Live
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </span>
+                </div>
+                <div
+                  class="w-full h-full bg-slate-800 flex items-center justify-center text-4xl font-bold opacity-30"
+                >
+                  ADMIN PANELS
+                </div>
+              </div>
+              <h3 class="text-2xl font-bold mb-2">Custom Admin Ecosystem</h3>
+              <p class="text-slate-400 mb-4">
+                Scalable dashboard solutions with advanced analytics and data
+                management.
+              </p>
+              <div class="flex gap-2">
+                <span
+                  class="text-[10px] uppercase font-bold px-3 py-1 bg-white/10 rounded-full"
+                  >React</span
+                >
+                <span
+                  class="text-[10px] uppercase font-bold px-3 py-1 bg-white/10 rounded-full"
+                  >Chart.js</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="mt-20 p-12 glass rounded-[40px] text-center border-white/10"
+          >
+            <h3 class="text-3xl font-bold mb-6">Interested in more?</h3>
+            <p class="text-slate-400 mb-8 max-w-xl mx-auto">
+              I've built over 50+ websites and 10+ Admin Panels. Let's discuss
+              how I can help with your next big idea.
+            </p>
+            <a
+              href="#contact"
+              class="inline-flex items-center gap-3 px-10 py-5 bg-primary rounded-2xl font-bold hover:scale-105 transition-transform active:scale-95"
+            >
+              Start a Project
+              <i data-lucide="message-square" class="w-5 h-5"></i>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+          <div class="grid lg:grid-cols-2 gap-20">
+            <div>
+              <h2 class="text-4xl md:text-6xl font-extrabold mb-8">
+                Let's build <br />
+                something <span class="text-gradient">epic.</span>
+              </h2>
+              <p
+                class="text-slate-600 dark:text-slate-400 text-lg mb-12 max-w-md"
+              >
+                Currently available for freelance work and full-time
+                opportunities. Reach out and let's make it happen.
+              </p>
+
+              <div class="space-y-6">
+                <a
+                  href="mailto:deva.igenuine@gmail.com"
+                  class="flex items-center gap-6 group"
+                >
+                  <div
+                    class="w-14 h-14 glass rounded-2xl flex items-center justify-center group-hover:bg-primary/20 group-hover:text-primary transition-all"
+                  >
+                    <i data-lucide="mail" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <p
+                      class="text-xs font-bold uppercase tracking-widest text-slate-500"
+                    >
+                      Email Me
+                    </p>
+                    <p class="text-lg font-bold">deva.igenuine@gmail.com</p>
+                  </div>
+                </a>
+                <a
+                  href="tel:+919176167013"
+                  class="flex items-center gap-6 group"
+                >
+                  <div
+                    class="w-14 h-14 glass rounded-2xl flex items-center justify-center group-hover:bg-secondary/20 group-hover:text-secondary transition-all"
+                  >
+                    <i data-lucide="phone" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <p
+                      class="text-xs font-bold uppercase tracking-widest text-slate-500"
+                    >
+                      Call Me
+                    </p>
+                    <p class="text-lg font-bold">+91 9176167013</p>
+                  </div>
+                </a>
+                <div class="flex items-center gap-6 group">
+                  <div
+                    class="w-14 h-14 glass rounded-2xl flex items-center justify-center"
+                  >
+                    <i data-lucide="globe" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <p
+                      class="text-xs font-bold uppercase tracking-widest text-slate-500"
+                    >
+                      Portfolio
+                    </p>
+                    <p class="text-lg font-bold">deva.photfolio.com</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass p-10 rounded-[40px]">
+              <form id="contact-form" class="space-y-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div class="space-y-2">
+                    <label class="text-sm font-bold ml-1">Your Name</label>
+                    <input
+                      type="text"
+                      placeholder="John Doe"
+                      class="w-full px-6 py-4 glass rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                    />
+                  </div>
+                  <div class="space-y-2">
+                    <label class="text-sm font-bold ml-1">Email Address</label>
+                    <input
+                      type="email"
+                      placeholder="john@example.com"
+                      class="w-full px-6 py-4 glass rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                    />
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <label class="text-sm font-bold ml-1">Subject</label>
+                  <input
+                    type="text"
+                    placeholder="Project Inquiry"
+                    class="w-full px-6 py-4 glass rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                  />
+                </div>
+                <div class="space-y-2">
+                  <label class="text-sm font-bold ml-1">Message</label>
+                  <textarea
+                    rows="4"
+                    placeholder="Tell me about your project..."
+                    class="w-full px-6 py-4 glass rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  class="w-full py-5 bg-gradient-to-r from-primary to-secondary text-white rounded-2xl font-bold hover:shadow-xl hover:shadow-primary/20 transition-all active:scale-95"
+                >
+                  Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="py-12 px-6 border-t border-slate-200 dark:border-slate-800">
+      <div
+        class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8"
+      >
+        <p class="text-slate-500 text-sm font-medium">
+          &copy; 2026 Deva. K. All rights reserved.
+        </p>
+        <div class="flex gap-6">
+          <a
+            href="#"
+            class="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-primary/20 transition-all"
+            ><i data-lucide="github" class="w-4 h-4"></i
+          ></a>
+          <a
+            href="#"
+            class="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-primary/20 transition-all"
+            ><i data-lucide="linkedin" class="w-4 h-4"></i
+          ></a>
+          <a
+            href="#"
+            class="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-primary/20 transition-all"
+            ><i data-lucide="twitter" class="w-4 h-4"></i
+          ></a>
+        </div>
+        <a href="#" class="flex items-center gap-2 group">
+          <span
+            class="text-sm font-bold uppercase tracking-widest group-hover:text-primary transition-all"
+            >Back to Top</span
+          >
+          <i
+            data-lucide="arrow-up"
+            class="w-4 h-4 group-hover:-translate-y-1 transition-transform"
+          ></i>
+        </a>
+      </div>
+    </footer>
+
+    <!-- Mobile Menu Overlay -->
+    <div
+      id="mobile-menu"
+      class="fixed inset-0 bg-background-dark/95 z-[60] flex flex-col items-center justify-center gap-8 translate-x-full transition-transform duration-500 md:hidden"
+    >
+      <button
+        id="close-mobile-menu"
+        class="absolute top-8 right-8 p-2 rounded-lg glass text-white"
+      >
+        <i data-lucide="x" class="w-8 h-8"></i>
+      </button>
+      <a
+        href="#about"
+        class="text-3xl font-black text-white hover:text-primary transition-colors mobile-nav-link"
+        >About</a
+      >
+      <a
+        href="#skills"
+        class="text-3xl font-black text-white hover:text-primary transition-colors mobile-nav-link"
+        >Skills</a
+      >
+      <a
+        href="#experience"
+        class="text-3xl font-black text-white hover:text-primary transition-colors mobile-nav-link"
+        >Experience</a
+      >
+      <a
+        href="#projects"
+        class="text-3xl font-black text-white hover:text-primary transition-colors mobile-nav-link"
+        >Projects</a
+      >
+      <a
+        href="#contact"
+        class="text-3xl font-black text-white hover:text-primary transition-colors mobile-nav-link"
+        >Contact</a
+      >
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,104 @@
+/* Custom styles for 2026-style portfolio */
+
+:root {
+    --cursor-size: 32px;
+}
+
+body {
+    cursor: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-primary/20 hover:bg-primary/40 rounded-full transition-colors;
+}
+
+/* Glassmorphism Overrides */
+.glass {
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+}
+
+/* Selection */
+::selection {
+    @apply bg-primary/30 text-primary-dark dark:text-white;
+}
+
+/* Cursor Styles */
+#cursor {
+    transition: transform 0.15s ease-out, opacity 0.3s ease-in-out;
+}
+
+#cursor-follower {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease-in-out;
+}
+
+.cursor-hover {
+    transform: scale(1.5);
+    background-color: rgba(59, 130, 246, 0.5) !important;
+}
+
+/* Parallax Elements */
+.parallax-element {
+    will-change: transform;
+}
+
+/* Smooth Section Reveal */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Project Card Tilt Effect (Base) */
+.project-card {
+    transition: transform 0.3s ease-out;
+    transform-style: preserve-3d;
+}
+
+/* Animated Skill Bar Base */
+.skill-bar {
+    width: 0%;
+    transition: width 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Navigation Reveal on Scroll Up */
+nav.nav-hidden {
+    transform: translateY(-100%);
+}
+
+nav.nav-scrolled {
+    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-md shadow-lg border-b border-white/10;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* Hide cursor on touch devices */
+@media (hover: none) {
+    body {
+        cursor: auto;
+    }
+    #cursor, #cursor-follower {
+        display: none !important;
+    }
+}
+
+/* Responsive Grid Adjustments */
+@media (max-width: 768px) {
+    .glass {
+        backdrop-filter: blur(8px);
+    }
+}
